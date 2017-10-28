@@ -2,7 +2,7 @@ import React from 'react';
 import axios from 'axios';
 import Story from './Story';
 
-class Home extends React.Component {
+class Stories extends React.Component {
   constructor() {
     super();
     this.state = {
@@ -15,6 +15,12 @@ class Home extends React.Component {
   }
 
   componentDidMount() {
+    this.getStories();
+  }
+
+  // fetch the data from the Hacker News API and set the state with stories sorted by score:
+
+  getStories() {
     const stories = [];
     axios
       .get('https://hacker-news.firebaseio.com/v0/topstories.json')
@@ -59,33 +65,9 @@ class Home extends React.Component {
           .catch(err => console.error(err));
       })
       .catch(err => console.error(err));
-  }
+    }
 
-  render() {
-    return (
-      <div>
-        Sort by:
-        <button
-          id='sort-by-score'
-          onClick={this.handleSortClick}
-          className={this.state.sortByScore ? 'highlight' : null}>Score
-        </button>
-        <button
-          id='sort-by-karma' onClick={this.handleSortClick}
-          onClick={this.handleSortClick}
-          className={this.state.sortByKarma ? 'highlight' : null}>Author Karma
-        </button>
-        <button
-          id='sort-by-timestamp'
-          onClick={this.handleSortClick}
-          className={this.state.sortByTimestamp ? 'highlight' : null}>Timestamp
-        </button>
-        <div className="container">
-          {this.state.stories.map((story) => <Story story={story} key={story.title} />)}
-        </div>
-      </div>
-    );
-  }
+  // handles sorting by input criteria and highlighting of selected button:
 
   handleSortClick(e) {
     if (e.target.innerHTML === 'Score') {
@@ -133,7 +115,36 @@ class Home extends React.Component {
     }
   }
 
+  // render the sort buttons and story container with story components inside
+  // includes a conditional to add a highlight class to a button when selected, removing the class from other buttons
+
+  render() {
+    return (
+      <div>
+        Sort by:
+        <button
+          id='sort-by-score'
+          onClick={this.handleSortClick}
+          className={this.state.sortByScore ? 'highlight' : null}>Score
+        </button>
+        <button
+          id='sort-by-karma'
+          onClick={this.handleSortClick}
+          className={this.state.sortByKarma ? 'highlight' : null}>Author Karma
+        </button>
+        <button
+          id='sort-by-timestamp'
+          onClick={this.handleSortClick}
+          className={this.state.sortByTimestamp ? 'highlight' : null}>Timestamp
+        </button>
+        <div className="container">
+          {this.state.stories.map((story) => <Story story={story} key={story.title} />)}
+        </div>
+      </div>
+    );
+  }
+
 
 }
 
-export default Home;
+export default Stories;

@@ -1,0 +1,2 @@
+global.XMLHttpRequest = undefined;
+

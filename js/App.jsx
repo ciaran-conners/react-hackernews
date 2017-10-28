@@ -1,7 +1,7 @@
 import React from 'react';
 import {render} from 'react-dom';
 import {BrowserRouter, Route, Switch} from 'react-router-dom';
-import Home from './Home';
+import Stories from './Stories';
 
 const FourOhFour = () => <h1>404 Error. Please go home.</h1>;
 
@@ -10,7 +10,7 @@ const App = () => (
   <div className= 'app'>
   <h1>Ten Top Hacker News Stories</h1>
     <Switch>
-      <Route exact path='/' component={Home} />
+      <Route exact path='/' component={Stories} />
       <Route component={FourOhFour}/>
     </Switch>
   </div>
