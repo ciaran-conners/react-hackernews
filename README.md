@@ -6,4 +6,6 @@ By default, the articles presented are sorted by story score. However, you also 
 
 I built this application using React. Tests are included and can be run via 'npm test' from the terminal, while inside the application directory. 
 
-While 'npm start' runs a webpack build of the application, I have also included the development files (in the folder 'js', which also includes my tests). You can run the application using the webpack development server by running 'npm run dev-watch' from the terminal, while inside the application directory. You can create a new bundle by running 'npm run build-prod' from the terminal, while inside the application directory. However, to run these commands you will first have to install the necessary dependencies by running 'npm install' from the terminal, while inside the directory.
+While 'npm start' statically serves a webpack build of the application, I have also included the development files (in the folder 'js', which also includes the test files). 
+
+You can run the application using the webpack development server by running 'npm run dev-watch' from the terminal, while inside the application directory. You can create a new bundle by running 'npm run build-prod' from the terminal, while inside the application directory. However, to run these commands you will first have to install the necessary dependencies by running 'npm install' from the terminal, while inside the application directory.
