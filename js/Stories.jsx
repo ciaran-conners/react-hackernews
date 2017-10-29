@@ -1,5 +1,6 @@
 import React from 'react';
 import axios from 'axios';
+import ReactLoading from 'react-loading';
 import Story from './Story';
 
 class Stories extends React.Component {
@@ -22,24 +23,28 @@ class Stories extends React.Component {
 
   getStories() {
     const stories = [];
+    // set a boolean to allow render of a loading spinner while data comes in from the API
+    this.setState({
+      loading: true,
+    });
     axios
       .get('https://hacker-news.firebaseio.com/v0/topstories.json')
       .then((response) => {
         const storyIDs = response.data.slice(0, 10);
-        const axiosPromises = [];
+        const storyPromises = [];
         storyIDs.forEach((el) => {
-          axiosPromises.push(axios.get(`https://hacker-news.firebaseio.com/v0/item/${el}.json`))
+          storyPromises.push(axios.get(`https://hacker-news.firebaseio.com/v0/item/${el}.json`))
         });
-        Promise.all(axiosPromises)
-          .then((responses) => {
-            const responsePromises = [];
-            responses.forEach((el) => {
-              responsePromises.push(axios.get(`https://hacker-news.firebaseio.com/v0/user/${el.data.by}.json`))
+        Promise.all(storyPromises)
+          .then((storyResponses) => {
+            const authorPromises = [];
+            storyResponses.forEach((el) => {
+              authorPromises.push(axios.get(`https://hacker-news.firebaseio.com/v0/user/${el.data.by}.json`))
             });
-            Promise.all(responsePromises).then((responses2) => {
-              for (let i = 0; i < responses.length; i++) {
-                const s = responses[i];
-                const karma = responses2[i].data.karma;
+            Promise.all(authorPromises).then((authorResponses) => {
+              for (let i = 0; i < storyResponses.length; i++) {
+                const s = storyResponses[i];
+                const karma = authorResponses[i].data.karma;
                 const story = {};
                 story.title = s.data.title;
                 story.timestamp = new Date(s.data.time * 1000);
@@ -49,7 +54,9 @@ class Stories extends React.Component {
                 story.authorKarma = karma;
                 stories.push(story);
               }
+              // clear the loading boolean; set stories in component state & default to sorted by score
               this.setState({
+                loading: false,
                 stories: stories.sort((a, b) => {
                   if (a.score > b.score) {
                     return 1;
@@ -119,6 +126,11 @@ class Stories extends React.Component {
   // includes a conditional to add a highlight class to a button when selected, removing the class from other buttons
 
   render() {
+    if (this.state.loading === true) {
+      return (
+        <ReactLoading type={'spinningBubbles'} color={'blue'} className='loading' />
+      );
+    }
     return (
       <div>
         Sort by:
