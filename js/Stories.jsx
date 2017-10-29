@@ -132,7 +132,7 @@ class Stories extends React.Component {
       );
     }
     return (
-      <div>
+      <div className='stories'>
         Sort by:
         <button
           id='sort-by-score'
@@ -149,7 +149,7 @@ class Stories extends React.Component {
           onClick={this.handleSortClick}
           className={this.state.sortByTimestamp ? 'highlight' : null}>Timestamp
         </button>
-        <div className="container">
+        <div className='stories-display'>
           {this.state.stories.map((story) => <Story story={story} key={story.title} />)}
         </div>
       </div>
