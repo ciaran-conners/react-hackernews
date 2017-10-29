@@ -1,15 +1,12 @@
 body {
   font-family: "Courier New", Courier, monospace;
 }
-
 button {
   font-family: inherit;
 }
-
 .stories {
   margin: 1% auto auto auto;
 }
-
 .stories-display {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
@@ -17,7 +14,6 @@ button {
   grid-gap: 1em;
   align-items: center;
   padding: 1em;
-  overflow: auto;
 }
 .story {
   border: 1px solid black;
@@ -31,7 +27,6 @@ button {
   opacity: 1;
   border-radius: 5px;
 }
-
 .loading {
   height: 667px;
   width: 375px;
