@@ -20,6 +20,7 @@ button {
   border-radius: 5px;
   text-align: center;
   align-self: start;
+  font-size: 80%;
 }
 .highlight {
   background-color: #4188f4;
