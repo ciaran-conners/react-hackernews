@@ -3,7 +3,7 @@ import {render} from 'react-dom';
 import {BrowserRouter, Route, Switch} from 'react-router-dom';
 import Stories from './Stories';
 
-const FourOhFour = () => <h1>404 Error. Please go home.</h1>;
+const FourOhFour = () => <h1>404 Error. Please go <a href='/'>home</a>.</h1>;
 
 const App = () => (
   <BrowserRouter>
