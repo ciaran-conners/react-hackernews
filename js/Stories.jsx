@@ -42,18 +42,19 @@ class Stories extends React.Component {
               authorPromises.push(axios.get(`https://hacker-news.firebaseio.com/v0/user/${el.data.by}.json`))
             });
             Promise.all(authorPromises).then((authorResponses) => {
-              for (let i = 0; i < storyResponses.length; i++) {
-                const s = storyResponses[i];
+              storyResponses.forEach((s, i) => {
+                // access the authorKarma from authorPromises which resolved to authorResponses
+                // because arrays are ordered, the order of storyResponses and authorResponses correspond:
                 const karma = authorResponses[i].data.karma;
                 const story = {};
                 story.title = s.data.title;
                 story.timestamp = new Date(s.data.time * 1000);
-                story.URL = s.data.url;
+                story.url = s.data.url;
                 story.score = s.data.score;
                 story.authorId = s.data.by;
                 story.authorKarma = karma;
                 stories.push(story);
-              }
+              });
               // clear the loading boolean; set stories in component state & default to sorted by score
               this.setState({
                 loading: false,

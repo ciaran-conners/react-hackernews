@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 const Story = (props) => (
   <div className='story'>
     <div className='title'><b>{props.story.title}</b></div>
-    <a className='URL' href={props.story.URL}>{props.story.URL}</a>
+    <a className='URL' href={props.story.url}>{props.story.url}</a>
     <div className='timestamp'>{props.story.timestamp.toLocaleString()}</div>
     <div className='score'>Score: {props.story.score}</div>
     <div className='authorID'>authorID: {props.story.authorId}</div>
@@ -15,7 +15,7 @@ const Story = (props) => (
 Story.propTypes = {
   story: PropTypes.shape({
       title: PropTypes.string,
-      URL: PropTypes.string,
+      url: PropTypes.string,
       timestamp: PropTypes.date,
       score: PropTypes.number,
       authorId: PropTypes.string,
