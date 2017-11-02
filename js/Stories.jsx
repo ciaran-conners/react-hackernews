@@ -8,10 +8,9 @@ class Stories extends React.Component {
     super();
     this.state = {
       stories: [],
-      sortByScore: true,
-      sortByTimestamp: false,
-      sortByKarma: false,
+      sortBy: 'score',
     };
+    this.sortStateBy = this.sortStateBy.bind(this);
     this.handleSortClick = this.handleSortClick.bind(this);
   }
 
@@ -78,49 +77,29 @@ class Stories extends React.Component {
   // handles sorting by input criteria and highlighting of selected button:
 
   handleSortClick(e) {
-    if (e.target.innerHTML === 'Score') {
-      this.setState({
-        sortByKarma: false,
-        sortByScore: true,
-        sortByTimestamp: false,
-        stories: this.state.stories.sort((a, b) => {
-          if (a.score > b.score) {
-            return 1;
-          } else if (b.score > a.score) {
-            return -1;
-          }
-          return 0;
-        })
-      });
-    } else if (e.target.innerHTML === 'Author Karma') {
-       this.setState({
-        sortByKarma: true,
-        sortByScore: false,
-        sortByTimestamp: false,
-        stories: this.state.stories.sort((a, b) => {
-          if (a.authorKarma > b.authorKarma) {
-            return 1;
-          } else if (b.authorKarma > a.authorKarma) {
-            return -1;
-          }
-          return 0;
-        })
-      });
-    } else if (e.target.innerHTML === 'Timestamp') {
-       this.setState({
-        sortByKarma: false,
-        sortByScore: false,
-        sortByTimestamp: true,
-        stories: this.state.stories.sort((a, b) => {
-          if (a.timestamp > b.timestamp) {
-            return 1;
-          } else if (b.timestamp > a.timestamp) {
-            return -1;
-          }
-          return 0;
-        })
-      });
+    if (e.target.id === 'sort-by-score') {
+      this.sortStateBy('score');
     }
+    if (e.target.id === 'sort-by-karma') {
+      this.sortStateBy('authorKarma');
+    }
+    if (e.target.id === 'sort-by-timestamp') {
+      this.sortStateBy('timestamp');
+    }
+  }
+
+  sortStateBy(input) {
+    this.setState({
+      sortBy: input,
+      stories: this.state.stories.sort((a, b) => {
+        if (a[input] > b[input]) {
+          return 1;
+        } else if (b[input] > a[input]) {
+          return -1;
+        }
+        return 0;
+      })
+    });
   }
 
   // render the sort buttons and story container with story components inside
@@ -138,17 +117,17 @@ class Stories extends React.Component {
         <button
           id='sort-by-score'
           onClick={this.handleSortClick}
-          className={this.state.sortByScore ? 'highlight' : null}>Score
+          className={this.state.sortBy === 'score' ? 'highlight' : null}>Score
         </button>
         <button
           id='sort-by-karma'
           onClick={this.handleSortClick}
-          className={this.state.sortByKarma ? 'highlight' : null}>Author Karma
+          className={this.state.sortBy === 'authorKarma' ? 'highlight' : null}>Author Karma
         </button>
         <button
           id='sort-by-timestamp'
           onClick={this.handleSortClick}
-          className={this.state.sortByTimestamp ? 'highlight' : null}>Timestamp
+          className={this.state.sortBy === 'timestamp' ? 'highlight' : null}>Timestamp
         </button>
         <div className='stories-display'>
           {this.state.stories.map((story) => <Story story={story} key={story.title} />)}
