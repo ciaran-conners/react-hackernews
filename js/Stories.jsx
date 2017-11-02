@@ -44,14 +44,9 @@ class Stories extends React.Component {
               storyResponses.forEach((s, i) => {
                 // access the authorKarma from authorPromises which resolved to authorResponses
                 // because arrays are ordered, the order of storyResponses and authorResponses correspond:
-                const karma = authorResponses[i].data.karma;
-                const story = {};
-                story.title = s.data.title;
-                story.timestamp = new Date(s.data.time * 1000);
-                story.url = s.data.url;
-                story.score = s.data.score;
-                story.authorId = s.data.by;
-                story.authorKarma = karma;
+                const authorKarma = authorResponses[i].data.karma;
+                const { title, score, url, time, by: authorId } = s.data;
+                const story = {title, score, url, authorKarma, authorId, timestamp: new Date(time * 1000)};
                 stories.push(story);
               });
               // clear the loading boolean; set stories in component state & default to sorted by score
